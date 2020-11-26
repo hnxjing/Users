@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <script>
+        $(function () {
+            show();
+            $("#addUsers").on("click", function () {
+                $("#usersModal").modal("show");
+                $("#query").on("click", function () {
+                    var $f1 = $("#f1").serialize();
+                    $.ajax({
+                        url: 'user/insert',
+                        type: 'post',
+                        data: $f1,
+                        success: function (data) {
+                            if (data == 200) {
+                                alert("添加成功！")
+                                location.reload();
+                            } else {
+                                alert("添加失败！");
+                            }
+                        }
+                    })
+                })
+            })
+
+        })
+
+        function show() {
+            $.ajax({
+                url: 'user/list',
+                type: 'gst',
+                success: function (data) {
+                    $.each(data, function (index, users) {
+                        $("#tab").append(
+                            "<tr class='tr'>" +
+                            "<td>" + users.id + "</td>" +
+                            "<td>" + users.name + "</td>" +
+                            "<td>" + users.age + "</td>" +
+                            "<td>" + users.sex + "</td>" +
+                            "<td>" + users.email + "</td>" +
+                            "<td>" + users.address + "</td>" +
+                            "</tr>"
+                        )
+                    })
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+<table align="center" border="1" id="tab">
+    <th>id</th>
+    <th>name</th>
+    <th>age</th>
+    <th>sex</th>
+    <th>email</th>
+    <th>address</th>
+</table>
+<input id="addUsers" type="button" value="添加"/>
+
+<div id="loadmodal">
+    <div class="modal fade" id="usersModal" role="dialog">
+        <!--模式对话框样式-->
+        <div class="modal-dialog" role="document">
+            <!-- 没有透明 -->
+            <div class="modal-content">
+                <!--头-->
+                <div class="modal-header">
+                    <!--关闭-->
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <!--图标纯粹作为装饰用途时 aria-hidden-->
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!--标题-->
+                    <h4 class="modal-title">添加用户</h4>
+                </div>
+
+                <!--中；主体-->
+                <div class="modal-body">
+                    <form id="f1">
+                        姓名： <input name="name" type="text"> <br/>
+                        年龄： <input name="age" type="text"> <br/>
+                        性别： <input class="sex" name="sex" type="radio" value="男">男 <input class="sex" name="sex"
+                                                                                          type="radio" value="女">女 <br/>
+                        邮箱： <input name="email" type="text"> <br/>
+                        地址： <input name="address" type="text"> <br/>
+                    </form>
+
+                </div>
+
+                <!--尾-->
+                <div class="modal-footer">
+                    <!--<input type="button" class="btn btn-default" data-dismiss="modal" value="关闭"/>-->
+                    <button class="btn btn-success" id="query" type="button">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

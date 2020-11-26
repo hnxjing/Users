@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.nf.users.dao.UsersDao">
+
+    <resultMap id="usersMap" type="edu.nf.users.entity.Users">
+        <id property="id" column="uid"/>
+        <result property="name" column="uname"/>
+        <result property="age" column="age"/>
+        <result property="sex" column="sex"/>
+        <result property="email" column="email"/>
+        <result property="address" column="address"/>
+    </resultMap>
+
+    <select id="listUsers" resultMap="usersMap">
+        select * from users
+    </select>
+
+    <insert id="insertUsers" parameterType="users">
+        insert into users(uname, age, sex, email, address) values(#{name}, #{age}, #{sex}, #{email}, #{address})
+    </insert>
+
+</mapper>
